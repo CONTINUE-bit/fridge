@@ -3,7 +3,7 @@ from google import genai
 
 # 1. API 설정
 # Secrets에 저장했다면 st.secrets["GEMINI_API_KEY"]를 사용하세요.
-GOOGLE_API_KEY = "AIzaSyCVGHYea0bb6hMYiRX0cN0b6raTTtin01Y" 
+GOOGLE_API_KEY = st.secrets["GEMINI_API_KEY"]
 client = genai.Client(api_key=GOOGLE_API_KEY)
 
 # 2. 화면 구성
@@ -32,3 +32,4 @@ if st.button("레시피 추천받기"):
                 st.error(f"오류가 발생했습니다: {e}")
     else:
         st.warning("재료를 입력해 주세요!")
+
