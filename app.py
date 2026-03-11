@@ -27,6 +27,6 @@ if st.button("레시피 추천받기"):
                 
             except Exception as e:
                 st.error(f"모델 연결 오류: {e}")
-                st.info("💡 발표 팁: 최신 Gemini 2.0 Flash 모델 인프라를 사용 중입니다.")
     else:
         st.warning("재료를 입력해주세요!")
+
