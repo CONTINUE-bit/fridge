@@ -20,7 +20,7 @@ if st.button("레시피 추천받기"):
             try:
                 # [수정 1] 모델명을 gemini-1.5-flash로 변경 (무료 할당량 최적화)
                 response = client.models.generate_content(
-                    model="gemini-1.5-flash", 
+                    model="gemini-1.5-flash-002", 
                     contents=f"{ingredients}를 주재료로 자취생용 요리 레시피 1개를 추천해줘."
                 )
                 
@@ -41,4 +41,5 @@ if st.button("레시피 추천받기"):
                     st.error(f"오류가 발생했습니다: {e}")
     else:
         st.warning("재료를 입력해 주세요!")
+
 
