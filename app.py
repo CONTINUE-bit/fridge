@@ -4,7 +4,7 @@ import google.generativeai as genai
 # 1. Gemini API 설정 (발급받은 키를 여기에 넣으세요)
 GOOGLE_API_KEY = "AIzaSyCVGHYea0bb6hMYiRX0cN0b6raTTtin01Y"
 genai.configure(api_key=GOOGLE_API_KEY)
-model = genai.GenerativeModel('gemini-1.5-flash') # 속도가 빠른 flash 모델 추천
+model = genai.GenerativeModel('gemini-pro') # 속도가 빠른 flash 모델 추천
 
 # 2. 화면 구성 (프론트엔드)
 st.set_page_config(page_title="냉장고 파먹기 AI", page_icon="🥦")
@@ -43,3 +43,4 @@ if st.button("레시피 추천받기"):
                 st.error(f"오류가 발생했습니다: {e}")
     else:
         st.warning("재료를 입력해 주세요!")
+
