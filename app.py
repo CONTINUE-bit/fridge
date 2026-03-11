@@ -2,33 +2,38 @@ import streamlit as st
 import google.generativeai as genai
 
 # 1. API 설정
-if "GEMINI_API_KEY" not in st.secrets:
-    st.error("Streamlit Secrets에 API 키를 등록해주세요.")
-else:
-    genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
+try:
+    key = st.secrets["GEMINI_API_KEY"]
+    genai.configure(api_key=key)
+except Exception as e:
+    st.error(f"Secrets 설정 에러: {e}")
 
-st.title("🥦 냉장고 파먹기 AI: 최종 완성본")
+st.title("🥦 냉장고 파먹기 AI: Single-Chef")
 
 ingredients = st.text_input("남은 재료를 입력하세요 (예: 두부, 대파)")
 
 if st.button("레시피 추천받기"):
     if ingredients:
-        with st.spinner('AI 셰프가 응답 중입니다...'):
+        with st.spinner('AI 셰프가 요리를 연구 중입니다...'):
             try:
-                # [핵심 변경] 모델명에서 'models/'를 빼고 이름만 적습니다. 
-                # 라이브러리가 자동으로 최신 안정화 경로(v1)를 찾게 합니다.
-                model = genai.GenerativeModel('gemini-1.5-flash')
+                # [중요] 모델 이름 앞에 'models/'를 생략하고 시도합니다.
+                # 만약 안되면 'models/gemini-1.5-flash'로 한 번 더 시도하는 로직입니다.
+                model_name = 'gemini-1.5-flash' 
+                model = genai.GenerativeModel(model_name)
                 
-                response = model.generate_content(
-                    f"{ingredients}를 주재료로 간단한 요리 레시피 1개 추천해줘."
-                )
+                response = model.generate_content(f"{ingredients}를 주재료로 자취생용 요리 레시피 1개 추천해줘.")
                 
-                st.success("레시피 생성 성공!")
+                st.success("레시피 완성!")
                 st.markdown(response.text)
                 
             except Exception as e:
-                # 만약 여기서도 404가 난다면, 구글 서버의 일시적 이슈일 확률이 높습니다.
-                st.error(f"서버 응답 오류: {e}")
-                st.info("💡 발표 팁: 구글 API 서비스의 일시적인 엔드포인트 호환성 이슈입니다. 코드 로직은 정상입니다.")
+                # 404 에러 대응: 다른 명칭으로 재시도
+                try:
+                    model = genai.GenerativeModel('models/gemini-1.5-flash')
+                    response = model.generate_content(f"{ingredients} 레시피 알려줘.")
+                    st.success("성공 (표준 경로 사용)")
+                    st.markdown(response.text)
+                except Exception as final_e:
+                    st.error(f"서버 연결 오류: {final_e}")
     else:
-        st.warning("재료를 입력해주세요!")
+        st.warning("재료를 입력해 주세요!")
