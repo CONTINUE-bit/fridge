@@ -41,3 +41,4 @@ if st.button("레시피 추천받기"):
                     st.error(f"오류가 발생했습니다: {e}")
     else:
         st.warning("재료를 입력해 주세요!")
+
