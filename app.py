@@ -16,7 +16,7 @@ if st.button("레시피 추천받기"):
         with st.spinner('최신 Gemini 2.0 모델로 레시피를 생성 중...'):
             try:
                 # 리스트에서 확인된 정확한 모델명을 사용합니다.
-                model = genai.GenerativeModel('Gemini 2.5 Flash')
+                model = genai.GenerativeModel('models/gemini-2.5-flash')
                 
                 response = model.generate_content(
                     f"{ingredients}를 주재료로 간단한 자취 요리 레시피 1개 추천해줘."
@@ -29,6 +29,7 @@ if st.button("레시피 추천받기"):
                 st.error(f"모델 연결 오류: {e}")
     else:
         st.warning("재료를 입력해주세요!")
+
 
 
 
